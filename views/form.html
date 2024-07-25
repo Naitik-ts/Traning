@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form action="/admin/student" method="POST">
+            <input type="text" name="firstName" placeholder="Name" required>
+            <input type="number" name="age" placeholder="Age" required>
+            <button type="submit">Add Student</button>
+        </form>
+    </div>
+</body>
+</html>

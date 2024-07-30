@@ -1,10 +1,22 @@
 // const Project = require("../models/project");
 import { Project } from "../models/project";
 import { v4 as uuidv4 } from "uuid";
+import express, { Request, Response } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken"
+import { StringSchemaDefinition } from "mongoose";
 // const { v4: uuidv4 } = require("uuid");
 
-export const addProject = async (req: Request, res: Response) => {
-  const { payload: { email, role, userId }, } = req;
+
+interface PayloadData extends Request {
+  payload?: {
+    email: string,
+    role: string,
+    userId: string
+  }
+}
+
+export const addProject = async (req: PayloadData, res: Response) => {
+  const { email, role, userId } = req.payload || {};
 
   if (role !== "CD")
     return res
@@ -30,7 +42,7 @@ export const addProject = async (req: Request, res: Response) => {
   res.json({ status: 200, message: "Data Inserted" });
 };
 
-export const editProject = async (req, res) => {
+export const editProject = async (req: Request, res: Response) => {
   const {
     body: { title, description, releaseDate },
   } = req;
@@ -62,12 +74,10 @@ export const editProject = async (req, res) => {
   res.json({ status: 200, data });
 };
 
-export const findProject = async (req, res) => {
+export const findProject = async (req: PayloadData, res: Response) => {
   const { id } = req.params;
 
-  const {
-    payload: { userId, email, role },
-  } = req;
+  const { userId, email, role }= req.payload || {};
 
   if (role !== "CD")
     return res
@@ -88,10 +98,8 @@ export const findProject = async (req, res) => {
   return res.json({ status: 200, data: originalProject });
 };
 
-export const listProject = async (req, res) => {
-  const {
-    payload: { userId, email, role },
-  } = req;
+export const listProject = async (req: PayloadData, res: Response) => {
+  const { userId, email, role } = req.payload || {};
 
   if (role !== "CD")
     return res

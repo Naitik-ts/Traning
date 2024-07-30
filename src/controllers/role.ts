@@ -1,8 +1,9 @@
-const Project = require("../models/project");
-const Role = require("../models/role");
-const { v4: uuidv4 } = require("uuid");
+import { Project } from "../models/project";
+import { Role } from "../models/role";
+import { v4 as uuidv4 } from "uuid";
+import express, { Request, Response } from "express";
 
-exports.addRole = async (req, res) => {
+export const addRole = async (req: Request, res: Response) => {
   const {
     body: { projectId, roleName, description },
   } = req;
@@ -17,7 +18,7 @@ exports.addRole = async (req, res) => {
 
   const roleId = uuidv4();
 
-  const roleData = await Role({
+  const roleData = await new Role({
     roleId,
     ...req.body,
   }).save();
@@ -25,7 +26,7 @@ exports.addRole = async (req, res) => {
   res.json({ status: 200, message: "Data Inserted" });
 };
 
-exports.listRole = async (req, res) => {
+export const listRole = async (req: Request, res: Response) => {
   const roles = await Role.find();
   res.json({ status: 200, message: roles });
 };

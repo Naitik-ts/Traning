@@ -1,11 +1,11 @@
 import express from "express";
-const router=express.Router();
+const router = express.Router();
 
-const projectControllers=require("../controllers/project");
-const {requireSignIn}=require("../middlewares/requireSignin");
+import { addProject, editProject } from "../controllers/project";
+import  {requireSignIn}  from "../middlewares/requireSignin";
 
-router.post("/add",requireSignIn,projectControllers.addProject);
+router.post("/add", requireSignIn, addProject);
 
-router.post("/edit/:id",projectControllers.editProject);
+router.post("/edit/:id", editProject);
 
-export {router};
+export { router };

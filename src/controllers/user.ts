@@ -1,8 +1,10 @@
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import bcrypt from "bcrypt-ts";
+import jwt from "jsonwebtoken";
 
-exports.signup = async (req, res) => {
+import { User } from "../models/user";
+import express, { Request, Response } from "express";
+
+exports.signup = async (req: Request, res: Response) => {
   const {
     body: { name, email, role, password },
   } = req;
@@ -30,7 +32,7 @@ exports.signup = async (req, res) => {
 };
 
 
-exports.signin = async (req, res) => {
+exports.signin = async (req: Request, res: Response) => {
   const {
     body: { email, password },
   } = req;
@@ -58,7 +60,7 @@ exports.signin = async (req, res) => {
         userId: user._id,
         role: user.role,
       },
-      process.env.JWT_SECRET_KEY,
+      process.env.JWT_SECRET_KEY as string,
       {
         expiresIn: "1h",
       }
@@ -74,7 +76,7 @@ exports.signin = async (req, res) => {
   }
 };
 
-const validateEmail = (email) => {
+const validateEmail = (email: string) => {
   return String(email)
     .toLowerCase()
     .match(
